@@ -3,7 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWrapExamples", "WinWrapExamples\WinWrapExamples.csproj", "{A3F0BA59-E1FE-42FE-BEED-BBA6FFBD4898}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example2", "Example2\Example2.csproj", "{1D7CEEE3-8CB3-4485-B5D5-13AA4DE7595E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.Extensions", "Examples.Extensions\Examples.Extensions.csproj", "{BFC74454-E203-4343-A36A-19860A0CD279}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{0820C5AD-EE3F-4F29-B116-A7E7BEF325E2}"
+	ProjectSection(SolutionItems) = preProject
+		Scripts\BlockedParseError.bas = Scripts\BlockedParseError.bas
+		Scripts\BlockedRuntimeError.bas = Scripts\BlockedRuntimeError.bas
+		Scripts\DOTNet.bas = Scripts\DOTNet.bas
+		Scripts\Globals.bas = Scripts\Globals.bas
+		Scripts\Good.bas = Scripts\Good.bas
+		Scripts\Good.cls = Scripts\Good.cls
+		Scripts\ParseError.bas = Scripts\ParseError.bas
+		Scripts\ParseError.cls = Scripts\ParseError.cls
+		Scripts\RuntimeError.bas = Scripts\RuntimeError.bas
+		Scripts\RuntimeError.cls = Scripts\RuntimeError.cls
+		Scripts\Stop.bas = Scripts\Stop.bas
+		Scripts\Stop.cls = Scripts\Stop.cls
+		Scripts\TooLong.bas = Scripts\TooLong.bas
+		Scripts\TooLong.cls = Scripts\TooLong.cls
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +31,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A3F0BA59-E1FE-42FE-BEED-BBA6FFBD4898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3F0BA59-E1FE-42FE-BEED-BBA6FFBD4898}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3F0BA59-E1FE-42FE-BEED-BBA6FFBD4898}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3F0BA59-E1FE-42FE-BEED-BBA6FFBD4898}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D7CEEE3-8CB3-4485-B5D5-13AA4DE7595E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D7CEEE3-8CB3-4485-B5D5-13AA4DE7595E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D7CEEE3-8CB3-4485-B5D5-13AA4DE7595E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D7CEEE3-8CB3-4485-B5D5-13AA4DE7595E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFC74454-E203-4343-A36A-19860A0CD279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC74454-E203-4343-A36A-19860A0CD279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC74454-E203-4343-A36A-19860A0CD279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC74454-E203-4343-A36A-19860A0CD279}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
