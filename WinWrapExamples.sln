@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples.SharedSource", "Ex
 		Examples.SharedSource\WinWrapBasic.cs = Examples.SharedSource\WinWrapBasic.cs
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example4", "Example4\Example4.csproj", "{7ED36FC1-257D-4542-8A1F-4DE9E3990410}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{0D42AD53-B7D5-486D-9DE0-476DB2D535AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D42AD53-B7D5-486D-9DE0-476DB2D535AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D42AD53-B7D5-486D-9DE0-476DB2D535AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ED36FC1-257D-4542-8A1F-4DE9E3990410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ED36FC1-257D-4542-8A1F-4DE9E3990410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ED36FC1-257D-4542-8A1F-4DE9E3990410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ED36FC1-257D-4542-8A1F-4DE9E3990410}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

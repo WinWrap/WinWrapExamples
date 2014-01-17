@@ -34,7 +34,7 @@ namespace Example
 
         private string ScriptPath(string script)
         {
-            string dir = @"..\..\..\..\Scripts";
+            string dir = @"..\..\..\Scripts";
             return string.Format(@"{0}\{1}", dir, script);
         }
 
