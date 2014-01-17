@@ -27,6 +27,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{0820
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example3", "Example3\Example3.csproj", "{DC607AA1-8821-4B0F-BF17-DECA8FD1FC2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example1", "Example1\Example1.csproj", "{0D42AD53-B7D5-486D-9DE0-476DB2D535AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples.SharedSource", "Examples.SharedSource", "{B23874B8-6031-49B2-A0F4-A06AA608A96D}"
+	ProjectSection(SolutionItems) = preProject
+		Examples.SharedSource\Form1_Partial.cs = Examples.SharedSource\Form1_Partial.cs
+		Examples.SharedSource\Form1_Partial_AZW.cs = Examples.SharedSource\Form1_Partial_AZW.cs
+		Examples.SharedSource\WinWrapBasic.cs = Examples.SharedSource\WinWrapBasic.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +54,10 @@ Global
 		{DC607AA1-8821-4B0F-BF17-DECA8FD1FC2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC607AA1-8821-4B0F-BF17-DECA8FD1FC2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC607AA1-8821-4B0F-BF17-DECA8FD1FC2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D42AD53-B7D5-486D-9DE0-476DB2D535AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D42AD53-B7D5-486D-9DE0-476DB2D535AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D42AD53-B7D5-486D-9DE0-476DB2D535AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D42AD53-B7D5-486D-9DE0-476DB2D535AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
