@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4EE029AD-D0D5-4E59-A033-BBCDCFB29DE5}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Example</RootNamespace>
+    <AssemblyName>Example6</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="ww10_azw, Version=10.20.0.60, Culture=neutral, PublicKeyToken=d08a0738ecd16506, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Polar Engineering\WinWrap Basic v10 - For Azure Websites 4.0\REDIST\ww10_azw.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\thissite.pubxml" />
+    <None Include="Properties\PublishProfiles\ww2013d - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\ww2013d - Web Deploy.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\..\..\..\Program Files %28x86%29\Polar Engineering\WinWrap Basic v10 - For Azure Websites 4.0\REDIST\ww10_32w.dll">
+      <Link>App_Data\WinWrapBasic10\ww10_32w.dll</Link>
+    </Content>
+    <Content Include="..\..\..\..\..\..\..\Program Files %28x86%29\Polar Engineering\WinWrap Basic v10 - For Azure Websites 4.0\REDIST\ww10_64.dll">
+      <Link>App_Data\WinWrapBasic10\ww10_64.dll</Link>
+    </Content>
+    <Content Include="..\..\..\..\..\..\..\Program Files %28x86%29\Polar Engineering\WinWrap Basic\Certificates\Application-198b3f79.htm">
+      <Link>App_Data\WinWrapBasic10\Application-198b3f79.htm</Link>
+    </Content>
+    <Content Include="..\..\..\..\..\..\Public\Documents\examples\examples-strings.txt">
+      <Link>App_Data\WinWrapBasic10\examples-strings.txt</Link>
+    </Content>
+    <Content Include="..\Scripts\BlockedParseError.bas">
+      <Link>App_Data\Scripts\BlockedParseError.bas</Link>
+    </Content>
+    <Content Include="..\Scripts\BlockedRuntimeError.bas">
+      <Link>App_Data\Scripts\BlockedRuntimeError.bas</Link>
+    </Content>
+    <Content Include="..\Scripts\DOTNet.bas">
+      <Link>App_Data\Scripts\DOTNet.bas</Link>
+    </Content>
+    <Content Include="..\Scripts\Globals.bas">
+      <Link>App_Data\Scripts\Globals.bas</Link>
+    </Content>
+    <Content Include="..\Scripts\Good.bas">
+      <Link>App_Data\Scripts\Good.bas</Link>
+    </Content>
+    <Content Include="..\Scripts\ParseError.bas">
+      <Link>App_Data\Scripts\ParseError.bas</Link>
+    </Content>
+    <Content Include="..\Scripts\RuntimeError.bas">
+      <Link>App_Data\Scripts\RuntimeError.bas</Link>
+    </Content>
+    <Content Include="..\Scripts\Stop.bas">
+      <Link>App_Data\Scripts\Stop.bas</Link>
+    </Content>
+    <Content Include="..\Scripts\TooLong.bas">
+      <Link>App_Data\Scripts\TooLong.bas</Link>
+    </Content>
+    <Content Include="Default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Examples.SharedSource\Form1_Partial_AZW.cs">
+      <Link>Form1_Partial_AZW.cs</Link>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="..\Examples.SharedSource\WinWrapBasic.cs">
+      <Link>WinWrapBasic.cs</Link>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Examples.Extensions\Examples.Extensions.csproj">
+      <Project>{bfc74454-e203-4343-a36a-19860a0cd279}</Project>
+      <Name>Examples.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50406</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50357/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

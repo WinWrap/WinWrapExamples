@@ -40,7 +40,7 @@ namespace Example
             string path = string.Format(@"{0}\{1}", dir, script);
             // Visual Studio debugger does not deploy App_Data dir contents
             if (!File.Exists(path))
-                path = string.Format(@"{0}\..\..\..\..\Scripts\{1}", dir, script);
+                path = string.Format(@"{0}\..\..\..\Scripts\{1}", dir, script);
             return path;
         }
 
