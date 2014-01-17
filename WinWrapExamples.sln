@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{0820
 		Scripts\TooLong.cls = Scripts\TooLong.cls
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example3", "Example3\Example3.csproj", "{DC607AA1-8821-4B0F-BF17-DECA8FD1FC2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{BFC74454-E203-4343-A36A-19860A0CD279}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFC74454-E203-4343-A36A-19860A0CD279}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFC74454-E203-4343-A36A-19860A0CD279}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC607AA1-8821-4B0F-BF17-DECA8FD1FC2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC607AA1-8821-4B0F-BF17-DECA8FD1FC2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC607AA1-8821-4B0F-BF17-DECA8FD1FC2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC607AA1-8821-4B0F-BF17-DECA8FD1FC2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
