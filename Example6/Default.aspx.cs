@@ -54,7 +54,7 @@ namespace Example
             string path = DataDirectory() + @"\WinWrapBasic10\examples-strings.txt";
             if (!File.Exists(path))
             {
-                path = @"C:\Users\Public\Documents\examples\examples-strings.txt";
+                return "00000000-0000-0000-0000-000000000000";
             }
             string strings = File.ReadAllText(path);
             Regex rgx = new Regex(pattern, RegexOptions.Multiline);
