@@ -52,10 +52,7 @@ namespace Example
         private string GetPatternString(string pattern)
         {
             string path = DataDirectory() + @"\WinWrapBasic10\examples-strings.txt";
-            if (!File.Exists(path))
-            {
-                return "00000000-0000-0000-0000-000000000000";
-            }
+            if (!File.Exists(path)) return "00000000-0000-0000-0000-000000000000";
             string strings = File.ReadAllText(path);
             Regex rgx = new Regex(pattern, RegexOptions.Multiline);
             MatchCollection matches = rgx.Matches(strings);
