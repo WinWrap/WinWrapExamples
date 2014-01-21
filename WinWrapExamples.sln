@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{0820
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example3", "Example3\Example3.csproj", "{DC607AA1-8821-4B0F-BF17-DECA8FD1FC2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example1", "Example1\Example1.csproj", "{0D42AD53-B7D5-486D-9DE0-476DB2D535AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example1 - NoUI", "Example1\Example1 - NoUI.csproj", "{0D42AD53-B7D5-486D-9DE0-476DB2D535AD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples.SharedSource", "Examples.SharedSource", "{B23874B8-6031-49B2-A0F4-A06AA608A96D}"
 	ProjectSection(SolutionItems) = preProject
