@@ -1,7 +1,7 @@
 WinWrapExamples
 ===============
 
-[ww2008a.github.io/WinWrapExamples][http://ww2008a.github.io/WinWrapExamples]
+[WinWrapExamples](http://ww2008a.github.io/WinWrapExamples)
 
 Example1 - NoUI - Create a Scriptable Application
 
