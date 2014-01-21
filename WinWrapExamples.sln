@@ -48,6 +48,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example6", "Example6\Exampl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{69E02FEB-CFC8-4D5E-9395-BA6AC186E308}"
 	ProjectSection(SolutionItems) = preProject
+		index.html = index.html
 		README.md = README.md
 	EndProjectSection
 EndProject
