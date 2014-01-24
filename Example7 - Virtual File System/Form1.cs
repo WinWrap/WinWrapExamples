@@ -3,6 +3,15 @@ using System;
 using System.Windows.Forms;
 using System.Diagnostics;
 
+//------------------------------------------------------------------------------
+// <copyright from='2013' to='2014' company='Polar Engineering and Consulting'>
+//    Copyright (c) Polar Engineering and Consulting. All Rights Reserved.
+//
+//    This file contains confidential material.
+//
+// </copyright>
+//------------------------------------------------------------------------------
+
 namespace Example7
 {
     public partial class Form1 : Form, IHost
