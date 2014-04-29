@@ -9,7 +9,7 @@
 
 namespace Examples.ExtensionsImplements
 {
-    // Added to WWB.NET language by AddExtension("Imports Example1.Extensions.ScriptingLanguage"
+    // Added to WWB.NET language by AddExtension("Imports Examples.Extensions.ScriptingLanguage"
     [Scriptable]
     public static class ScriptingLanguage
     {

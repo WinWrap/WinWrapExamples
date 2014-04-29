@@ -50,7 +50,7 @@ namespace Example
                 basicNoUIObj.Pause_ += basicNoUIObj__Pause_;
                 basicNoUIObj.Secret = new System.Guid("00000000-0000-0000-0000-000000000000");
                 basicNoUIObj.Initialize();
-                /// Extend WinWrap Basic scripts with Example1.Extensions assembly
+                /// Extend WinWrap Basic scripts with Examples.Extensions assembly
                 /// Add "Imports Examples.Extensions" to all WinWrap Basic scripts
                 /// Add "Imports Examples.Extensions.ScriptingLanguage" all WinWrap Basic scripts
                 basicNoUIObj.AddScriptableReference(typeof(ScriptingLanguage).Assembly,
