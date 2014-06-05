@@ -64,6 +64,11 @@ namespace Example3
             ScriptingLanguage.SetHost(this);
         }
 
+        private void tabPage2_GotFocus(object sender, RoutedEventArgs e)
+        {
+            basicIdeCtl1.Focus();
+        }
+
         private void basicIdeCtl1_LeaveDesignMode(object sender, WinWrap.Basic.Classic.DesignModeEventArgs e)
         {
             if (basicIdeCtl1.LoadModule(ScriptPath("Globals.bas")))
