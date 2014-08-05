@@ -64,6 +64,7 @@
     <None Include="Properties\PublishProfiles\thissite.pubxml" />
     <None Include="Properties\PublishProfiles\ww2013d - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ww2013d - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\ww2013d.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -81,7 +82,7 @@
     <Content Include="..\..\..\..\..\..\..\Program Files %28x86%29\Polar Engineering\WinWrap Basic\Certificates\Application-198b3f79.htm">
       <Link>App_Data\WinWrapBasic10\Application-198b3f79.htm</Link>
     </Content>
-    <Content Include="..\..\..\..\..\..\Public\Documents\examples\examples-strings.txt">
+    <Content Include="..\..\..\..\..\Public\Documents\examples\examples-strings.txt">
       <Link>App_Data\WinWrapBasic10\examples-strings.txt</Link>
     </Content>
     <Content Include="..\Scripts\BlockedParseError.bas">
@@ -112,7 +113,9 @@
       <Link>App_Data\Scripts\TooLong.bas</Link>
     </Content>
     <Content Include="Default.aspx" />
-    <Content Include="Global.asax" />
+    <Content Include="Global.asax">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -132,6 +135,7 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
