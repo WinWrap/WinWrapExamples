@@ -10,7 +10,7 @@
 
 namespace Examples.Extensions
 {
-    /// AddScriptableReference(..., "Examples.Extensions.ScriptingLanguage")
+    /// AddScriptableObjectModel(typeof(Extensions))
     /// adds this static class to the scripting language directly
     [Scriptable] public static class ScriptingLanguage
     {

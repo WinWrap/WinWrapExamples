@@ -57,8 +57,7 @@ namespace Example3
             // disable automatic updating of the containing window's title
             basicIdeCtl1.AttachToWindow(null, WinWrap.Basic.ManageConstants.OnCaptionChange);
 
-            basicIdeCtl1.AddScriptableReference(typeof(ScriptingLanguage).Assembly,
-                "Examples.Extensions Examples.Extensions.ScriptingLanguage");
+            basicIdeCtl1.AddScriptableObjectModel(typeof(ScriptingLanguage));
 
             // Initialize Language with this as the IHost
             ScriptingLanguage.SetHost(this);

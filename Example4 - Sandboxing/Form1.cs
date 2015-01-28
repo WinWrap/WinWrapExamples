@@ -51,8 +51,7 @@ namespace Example
                 /// Extend WinWrap Basic scripts with Examples.Extensions assembly
                 /// Add "Imports Examples.Extensions" to all WinWrap Basic scripts
                 /// Add "Imports Examples.Extensions.ScriptingLanguage" all WinWrap Basic scripts
-                basicNoUIObj.AddScriptableReference(typeof(ScriptingLanguage).Assembly,
-                    "Examples.Extensions Examples.Extensions.ScriptingLanguage");
+                basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
 
                 basicNoUIObj.Sandboxed = true;
                 if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))

@@ -80,8 +80,7 @@ namespace Example
                 basicNoUIObj.Pause_ += basicNoUIObj_Pause_;
                 basicNoUIObj.Secret = new Guid(GetPatternString("Guid[(]\"(.*)\"[)]"));
                 basicNoUIObj.Initialize();
-                basicNoUIObj.AddScriptableReference(typeof(ScriptingLanguage).Assembly,
-                    "Examples.Extensions Examples.Extensions.ScriptingLanguage");
+                basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
                 if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
                     LogError(basicNoUIObj.Error);
                 else

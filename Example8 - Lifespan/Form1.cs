@@ -60,7 +60,7 @@ namespace Example
             // automatically disconnect BasicNoUIObj when form closes
             basicNoUIObj.AttachToForm(this, WinWrap.Basic.ManageConstants.All);
             /* Extend WinWrap Basic scripts with Examples.Extensions assembly
-             * Add "Imports Examples.Extensions" to all WinWrap Basic scripts
+             * Add "Imports Examples.ExtensionsImplements" to all WinWrap Basic scripts
              * Add "Imports Examples.Extensions.ScriptingLanguage" all WinWrap Basic scripts */
             basicNoUIObj.AddScriptableReference(typeof(ScriptingLanguage).Assembly,
                 "Examples.ExtensionsImplements Examples.Extensions.ScriptingLanguage");

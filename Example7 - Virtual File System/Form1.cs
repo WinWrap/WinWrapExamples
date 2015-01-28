@@ -53,8 +53,7 @@ namespace Example7
 
             basicIdeCtl1.VirtualFileSystem = new MyFileSystem();
 
-            basicIdeCtl1.AddScriptableReference(typeof(ScriptingLanguage).Assembly,
-                "Examples.Extensions Examples.Extensions.ScriptingLanguage");
+            basicIdeCtl1.AddScriptableObjectModel(typeof(ScriptingLanguage));
 
             // Initialize Language with this as the IHost
             ScriptingLanguage.SetHost(this);
