@@ -57,6 +57,7 @@ namespace Example
             ScriptingLanguage.SetHost(this);
         }
 
+        // Prepare for script execution
         private void basicIdeCtl1_LeaveDesignMode(object sender, WinWrap.Basic.Classic.DesignModeEventArgs e)
         {
             if (basicIdeCtl1.LoadModule(ScriptPath("Globals.bas")))
@@ -74,6 +75,7 @@ namespace Example
             }
         }
 
+        // Prepare for script editing
         private void basicIdeCtl1_EnterDesignMode(object sender, WinWrap.Basic.Classic.DesignModeEventArgs e)
         {
             if (module_ != null)
@@ -122,7 +124,8 @@ namespace Example
         private void buttonRun_Click(object sender, EventArgs e)
         {
             basicIdeCtl1.DesignMode_ = true; // enter design mode
-            basicIdeCtl1.DesignMode_ = false;  // leave design mode
+            basicIdeCtl1.DesignMode_ = false; // leave design mode
+            // Execute script code via an event
             ScriptingLanguage.TheIncident.Start("Form1");
         }
 

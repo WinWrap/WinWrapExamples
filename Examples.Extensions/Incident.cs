@@ -29,8 +29,8 @@ namespace Examples.Extensions
             ScriptingLanguage.Host.Log(ToString());
         }
 
-        /// no [Scriptable] attribute
-        /// allows host to fire the event, but not the script
+        // no [Scriptable] attribute
+        // allows host to fire the event, but not the script
         public void Start(string firedby)
         {
             FiredBy = firedby;

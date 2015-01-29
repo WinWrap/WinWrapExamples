@@ -51,6 +51,7 @@ namespace Example7
             tabControl1.SelectedTab = tabPage2;
             tabControl1.SelectedTab = tabPage1;
 
+            // use MyFileSystem for reading/writing files
             basicIdeCtl1.VirtualFileSystem = new MyFileSystem();
 
             basicIdeCtl1.AddScriptableObjectModel(typeof(ScriptingLanguage));
