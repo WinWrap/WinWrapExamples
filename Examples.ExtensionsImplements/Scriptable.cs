@@ -9,7 +9,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-namespace Examples.ExtensionsImplements
+namespace Examples.Extensions
 {
     // http://www.winwrap.com/web2/basic/#!/ref/NET-WinWrap.Basic.BasicNoUIObj.AddScriptableObjectModel.html
     internal class ScriptableAttribute : Attribute

@@ -1,4 +1,4 @@
-﻿using Examples.ExtensionsImplements;
+﻿using Examples.Extensions;
 using System;
 using System.Drawing;
 using System.Text;

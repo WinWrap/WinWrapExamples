@@ -7,9 +7,10 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-namespace Examples.ExtensionsImplements
+namespace Examples.Extensions
 {
-    // Added to WWB.NET language by AddExtension("Imports Examples.Extensions.ScriptingLanguage"
+    /// AddScriptableObjectModel(typeof(Extensions))
+    /// adds this static class to the scripting language directly
     [Scriptable]
     public static class ScriptingLanguage
     {

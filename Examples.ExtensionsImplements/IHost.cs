@@ -7,7 +7,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-namespace Examples.ExtensionsImplements
+namespace Examples.Extensions
 {
     // used by application, not used by WWB.NET scripts
     public interface IHost

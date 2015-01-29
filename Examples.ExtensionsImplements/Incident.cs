@@ -11,7 +11,7 @@ using System.Text;
 // </copyright>
 //------------------------------------------------------------------------------
 
-namespace Examples.ExtensionsImplements
+namespace Examples.Extensions
 {
     [Scriptable]
     public class Incident
