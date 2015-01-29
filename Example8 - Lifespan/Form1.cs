@@ -28,6 +28,21 @@ namespace Example
             public WinWrap.Basic.Module module;
             public WinWrap.Basic.Instance instance;
             public DateTime timestamp;
+
+            public void Dispose()
+            {
+                if (instance != null)
+                {
+                    instance.Dispose();
+                    instance = null;
+                }
+
+                if (module != null)
+                {
+                    module.Dispose();
+                    module = null;
+                }
+            }
         }
 
         private static readonly string[] scripts_ =
@@ -81,6 +96,7 @@ namespace Example
             if (mts.TryGetValue(path, out mt) && mt.timestamp != timestamp)
             {
                 // file has changed, dump instance from cache
+                mt.Dispose();
                 mts.Remove(path);
                 mt = new InstanceAndTimestamp();
             }
@@ -126,8 +142,11 @@ namespace Example
                 basicNoUIObj.ReportError(ex);
             }
 
-            if (mt.instance == null && mt.module != null) // release module
-                mt.module.Dispose();
+            if (mt.instance == null && mt.module != null)
+            {
+                // release module
+                mt.Dispose();
+            }
 
             TheIncident = null;
         }
