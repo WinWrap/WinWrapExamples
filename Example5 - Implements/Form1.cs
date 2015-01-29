@@ -50,22 +50,25 @@ namespace Example
                 basicNoUIObj.Pause_ += basicNoUIObj__Pause_;
                 basicNoUIObj.Secret = new System.Guid("00000000-0000-0000-0000-000000000000");
                 basicNoUIObj.Initialize();
-                /* Extend WinWrap Basic scripts with Examples.Extensions assembly
-                 * Add "Imports Examples.Extensions" to all WinWrap Basic scripts
-                 * Add "Imports Examples.Extensions.ScriptingLanguage" all WinWrap Basic scripts */
+                // Extend WinWrap Basic scripts with Examples.Extensions assembly
+                // Add "Imports Examples.Extensions" to all WinWrap Basic scripts
+                // Add "Imports Examples.Extensions.ScriptingLanguage" all WinWrap Basic scripts
                 basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
 
                 if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
                     LogError(basicNoUIObj.Error);
                 else
                 {
-                    try
+                    using (var module = basicNoUIObj.ModuleInstance(ScriptPath(Script), false))
                     {
-                        using (var module = basicNoUIObj.ModuleInstance(ScriptPath(Script), false))
+                        if (module == null)
                         {
-                            if (module == null)
-                                LogError(basicNoUIObj.Error);
-                            else
+                            // script parsing error
+                            LogError(basicNoUIObj.Error);
+                        }
+                        else
+                        {
+                            try
                             {
                                 using (var instance = basicNoUIObj.CreateInstance(ScriptPath(Script) + "<IncidentAction"))
                                 {
@@ -74,16 +77,16 @@ namespace Example
                                     TheIncident.Start(action, this.Text);
                                 }
                             }
+                            catch (WinWrap.Basic.TerminatedException)
+                            {
+                                // script execution terminated, ignore error
+                            }
+                            catch (Exception ex)
+                            {
+                                // script caused an exception
+                                basicNoUIObj.ReportError(ex);
+                            }
                         }
-                    }
-                    catch (WinWrap.Basic.TerminatedException)
-                    {
-                        // script execution terminated, ignore error
-                    }
-                    catch (Exception ex)
-                    {
-                        // script caused an exception
-                        basicNoUIObj.ReportError(ex);
                     }
                 }
             }

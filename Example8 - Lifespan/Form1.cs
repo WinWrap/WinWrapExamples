@@ -25,17 +25,18 @@ namespace Example
 
         struct InstanceAndTimestamp
         {
+            public WinWrap.Basic.Module module;
             public WinWrap.Basic.Instance instance;
             public DateTime timestamp;
         }
 
         private static readonly string[] scripts_ =
         {
-            "Good.cls",
-            "ParseError.cls",
-            "RuntimeError.cls",
-            "Stop.cls",
-            "TooLong.cls"
+            "Good2.bas",
+            "ParseError2.bas",
+            "RuntimeError2.bas",
+            "Stop2.bas",
+            "TooLong2.bas"
         };
 
         public Form1()
@@ -59,9 +60,9 @@ namespace Example
             basicNoUIObj.Initialize();
             // automatically disconnect BasicNoUIObj when form closes
             basicNoUIObj.AttachToForm(this, WinWrap.Basic.ManageConstants.All);
-            /* Extend WinWrap Basic scripts with Examples.Extensions assembly
-             * Add "Imports Examples.Extensions" to all WinWrap Basic scripts
-             * Add "Imports Examples.Extensions.ScriptingLanguage" all WinWrap Basic scripts */
+            // Extend WinWrap Basic scripts with Examples.Extensions assembly
+            // Add "Imports Examples.Extensions" to all WinWrap Basic scripts
+            // Add "Imports Examples.Extensions.ScriptingLanguage" all WinWrap Basic scripts
             basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
             if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
             {
@@ -86,14 +87,19 @@ namespace Example
 
             try
             {
-                if (mt.instance == null)
+                if (mt.module == null)
                 {
-                    // parse the script and create an instance
-                    mt.instance = basicNoUIObj.CreateInstance(path);
-                    if (mt.instance == null)
+                    // module has not been parsed
+                    mt.module = basicNoUIObj.ModuleInstance(path, false);
+                    if (mt.module == null)
+                    {
+                        // script parsing error
                         LogError(basicNoUIObj.Error);
+                    }
                     else
                     {
+                        // create an instance
+                        mt.instance = basicNoUIObj.CreateInstance(path + "<IncidentAction");
                         // cache the instance with a timestamp
                         mt.timestamp = File.GetLastWriteTimeUtc(path);
                         mts.Add(path, mt);
@@ -120,6 +126,9 @@ namespace Example
                 basicNoUIObj.ReportError(ex);
             }
 
+            if (mt.instance == null && mt.module != null) // release module
+                mt.module.Dispose();
+
             TheIncident = null;
         }
 
@@ -133,7 +142,10 @@ namespace Example
         {
             // dispose of cached instances
             foreach (InstanceAndTimestamp mt in mts.Values)
+            {
                 mt.instance.Dispose();
+                mt.module.Dispose();
+            }
 
             mts.Clear();
         }
