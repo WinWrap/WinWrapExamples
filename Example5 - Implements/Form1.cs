@@ -20,11 +20,11 @@ namespace Example
         private DateTime timelimit_;
         private static readonly string[] scripts_ =
         {
-            "Good.cls",
-            "ParseError.cls",
-            "RuntimeError.cls",
-            "Stop.cls",
-            "TooLong.cls"
+            "Good2.bas",
+            "ParseError2.bas",
+            "RuntimeError2.bas",
+            "Stop2.bas",
+            "TooLong2.bas"
         };
 
         public Form1()
@@ -61,11 +61,19 @@ namespace Example
                 {
                     try
                     {
-                        using (var instance = basicNoUIObj.CreateInstance(ScriptPath(Script)))
+                        using (var module = basicNoUIObj.ModuleInstance(ScriptPath(Script), false))
                         {
-                            // Execute script code via an interface
-                            IIncidentAction action = instance.Cast<IIncidentAction>();
-                            TheIncident.Start(action, this.Text);
+                            if (module == null)
+                                LogError(basicNoUIObj.Error);
+                            else
+                            {
+                                using (var instance = basicNoUIObj.CreateInstance(ScriptPath(Script) + "<IncidentAction"))
+                                {
+                                    // Execute script code via an interface
+                                    IIncidentAction action = instance.Cast<IIncidentAction>();
+                                    TheIncident.Start(action, this.Text);
+                                }
+                            }
                         }
                     }
                     catch (WinWrap.Basic.TerminatedException)
