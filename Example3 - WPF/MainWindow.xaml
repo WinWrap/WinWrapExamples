@@ -7,22 +7,14 @@
         <TabControl x:Name="tabControl1">
             <TabItem x:Name="tabPage1" Header="Example3">
                 <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
                     <ListBox x:Name="listBox1" HorizontalAlignment="Left" Height="101" Margin="10,10,0,0" VerticalAlignment="Top" Width="155"/>
                     <Button x:Name="buttonEdit" Content="Edit Script" HorizontalAlignment="Left" Margin="197,60,0,0" VerticalAlignment="Top" Width="75" Click="buttonEdit_Click"/>
                     <Button x:Name="buttonRun" Content="Run Script" HorizontalAlignment="Left" Margin="197,87,0,0" VerticalAlignment="Top" Width="75" Click="buttonRun_Click"/>
-                    <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="159" Margin="0,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="507"/>
+                    <TextBox x:Name="textBox1" Height="142" Margin="0,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="tabPage2" Header="Scripts">
                 <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="24*"/>
-                        <ColumnDefinition Width="11*"/>
-                        <ColumnDefinition Width="391*"/>
-                    </Grid.ColumnDefinitions>
                     <Basic:BasicIdeCtl x:Name="basicIdeCtl1"
                                        EnterDesignMode="basicIdeCtl1_EnterDesignMode" LeaveDesignMode="basicIdeCtl1_LeaveDesignMode" 
                                        HandleError="basicIdeCtl1_HandleError" Pause_="basicIdeCtl1_Pause_" 
