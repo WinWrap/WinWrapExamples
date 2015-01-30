@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -50,7 +49,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(424, 292);
@@ -62,9 +61,9 @@
             this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Controls.Add(this.panel1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage1.Size = new System.Drawing.Size(416, 266);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Example2";
@@ -74,7 +73,7 @@
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBox1.Location = new System.Drawing.Point(2, 152);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(412, 112);
@@ -87,7 +86,7 @@
             this.panel1.Controls.Add(this.listBoxScripts);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(2, 2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(412, 150);
             this.panel1.TabIndex = 0;
@@ -95,7 +94,7 @@
             // buttonRun
             // 
             this.buttonRun.Location = new System.Drawing.Point(196, 111);
-            this.buttonRun.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonRun.Margin = new System.Windows.Forms.Padding(2);
             this.buttonRun.Name = "buttonRun";
             this.buttonRun.Size = new System.Drawing.Size(135, 19);
             this.buttonRun.TabIndex = 10;
@@ -106,7 +105,7 @@
             // buttonEdit
             // 
             this.buttonEdit.Location = new System.Drawing.Point(196, 79);
-            this.buttonEdit.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonEdit.Margin = new System.Windows.Forms.Padding(2);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(135, 19);
             this.buttonEdit.TabIndex = 9;
@@ -118,7 +117,7 @@
             // 
             this.listBoxScripts.FormattingEnabled = true;
             this.listBoxScripts.Location = new System.Drawing.Point(46, 13);
-            this.listBoxScripts.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.listBoxScripts.Margin = new System.Windows.Forms.Padding(2);
             this.listBoxScripts.Name = "listBoxScripts";
             this.listBoxScripts.Size = new System.Drawing.Size(126, 121);
             this.listBoxScripts.TabIndex = 8;
@@ -127,9 +126,9 @@
             // 
             this.tabPage2.Controls.Add(this.basicIdeCtl1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage2.Size = new System.Drawing.Size(416, 266);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Scripts";
@@ -145,18 +144,15 @@
             this.basicIdeCtl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.basicIdeCtl1.FileChangeDir = false;
             this.basicIdeCtl1.ForeColor = System.Drawing.Color.Black;
-            this.basicIdeCtl1.LargeIcon = ((System.Drawing.Icon)(resources.GetObject("basicIdeCtl1.LargeIcon")));
             this.basicIdeCtl1.Location = new System.Drawing.Point(2, 2);
-            this.basicIdeCtl1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.basicIdeCtl1.Margin = new System.Windows.Forms.Padding(2);
             this.basicIdeCtl1.Name = "basicIdeCtl1";
             this.basicIdeCtl1.NegotiateMenus = false;
             this.basicIdeCtl1.Secret = new System.Guid("00000000-0000-0000-0000-000000000000");
             this.basicIdeCtl1.SelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             this.basicIdeCtl1.SelForeColor = System.Drawing.Color.White;
             this.basicIdeCtl1.Size = new System.Drawing.Size(412, 262);
-            this.basicIdeCtl1.SmallIcon = ((System.Drawing.Icon)(resources.GetObject("basicIdeCtl1.SmallIcon")));
             this.basicIdeCtl1.TabIndex = 0;
-            this.basicIdeCtl1.TaskbarIcon = ((System.Drawing.Icon)(resources.GetObject("basicIdeCtl1.TaskbarIcon")));
             this.basicIdeCtl1.EnterDesignMode += new System.EventHandler<WinWrap.Basic.Classic.DesignModeEventArgs>(this.basicIdeCtl1_EnterDesignMode);
             this.basicIdeCtl1.HandleError += new System.EventHandler<System.EventArgs>(this.basicIdeCtl1_HandleError);
             this.basicIdeCtl1.LeaveDesignMode += new System.EventHandler<WinWrap.Basic.Classic.DesignModeEventArgs>(this.basicIdeCtl1_LeaveDesignMode);
@@ -169,7 +165,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(424, 292);
             this.Controls.Add(this.tabControl1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Example2 - WinWrap Basic in Tab Control";
             this.Load += new System.EventHandler(this.Form1_Load);

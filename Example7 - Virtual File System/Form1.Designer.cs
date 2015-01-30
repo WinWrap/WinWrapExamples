@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -145,7 +144,6 @@
             this.basicIdeCtl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.basicIdeCtl1.FileChangeDir = false;
             this.basicIdeCtl1.ForeColor = System.Drawing.Color.Black;
-            this.basicIdeCtl1.LargeIcon = ((System.Drawing.Icon)(resources.GetObject("basicIdeCtl1.LargeIcon")));
             this.basicIdeCtl1.Location = new System.Drawing.Point(2, 2);
             this.basicIdeCtl1.Margin = new System.Windows.Forms.Padding(2);
             this.basicIdeCtl1.Name = "basicIdeCtl1";
@@ -154,9 +152,7 @@
             this.basicIdeCtl1.SelBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(153)))), ((int)(((byte)(255)))));
             this.basicIdeCtl1.SelForeColor = System.Drawing.Color.White;
             this.basicIdeCtl1.Size = new System.Drawing.Size(412, 262);
-            this.basicIdeCtl1.SmallIcon = ((System.Drawing.Icon)(resources.GetObject("basicIdeCtl1.SmallIcon")));
             this.basicIdeCtl1.TabIndex = 0;
-            this.basicIdeCtl1.TaskbarIcon = ((System.Drawing.Icon)(resources.GetObject("basicIdeCtl1.TaskbarIcon")));
             this.basicIdeCtl1.EnterDesignMode += new System.EventHandler<WinWrap.Basic.Classic.DesignModeEventArgs>(this.basicIdeCtl1_EnterDesignMode);
             this.basicIdeCtl1.GetMacroName += new System.EventHandler<WinWrap.Basic.Classic.GetMacroNameEventArgs>(this.basicIdeCtl1_GetMacroName);
             this.basicIdeCtl1.HandleError += new System.EventHandler<System.EventArgs>(this.basicIdeCtl1_HandleError);
