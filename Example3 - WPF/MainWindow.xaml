@@ -1,7 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Basic="clr-namespace:WinWrap.Basic;assembly=ww10_wpf" x:Class="Example3.MainWindow"
+        xmlns:Basic="clr-namespace:WinWrap.Basic;assembly=ww10_wpf" x:Class="Examples.MainWindow"
         Title="MainWindow" Height="330" Width="440" Loaded="Window_Loaded">
     <Grid>
         <TabControl x:Name="tabControl1">

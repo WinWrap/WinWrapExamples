@@ -11,7 +11,7 @@ using System.Windows;
 // </copyright>
 //------------------------------------------------------------------------------
 
-namespace Example3
+namespace Examples
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
