@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4EE029AD-D0D5-4E59-A033-BBCDCFB29DE5}</ProjectGuid>
+    <ProjectGuid>{7315E2AE-D9F9-45D5-A92F-D99540CE81E6}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Example</RootNamespace>
-    <AssemblyName>Example6</AssemblyName>
+    <AssemblyName>Example9</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -63,6 +63,7 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\thissite.pubxml" />
     <None Include="Properties\PublishProfiles\ww2013e.pubxml" />
+    <None Include="Properties\PublishProfiles\wwazwdebug %282%29.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -77,11 +78,11 @@
     <Content Include="..\..\..\..\..\..\..\Program Files %28x86%29\Polar Engineering\WinWrap Basic v10 - For Azure Websites 4.0\REDIST\ww10_64.dll">
       <Link>App_Data\WinWrapBasic10\ww10_64.dll</Link>
     </Content>
-    <Content Include="..\..\..\..\..\..\..\Program Files %28x86%29\Polar Engineering\WinWrap Basic\Certificates\Application-198b3f79.htm">
-      <Link>App_Data\WinWrapBasic10\Application-198b3f79.htm</Link>
+    <Content Include="..\..\..\..\..\..\Program Files %28x86%29\Polar Engineering\WinWrap Basic\Certificates\Application-a675bb8c.htm">
+      <Link>App_Data\WinWrapBasic10\Application-a675bb8c.htm</Link>
     </Content>
-    <Content Include="..\..\..\..\..\Public\Documents\examples\examples-strings.txt">
-      <Link>App_Data\WinWrapBasic10\examples-strings.txt</Link>
+    <Content Include="..\..\Working-business\WinWrapExamples\examples\examples-strings-a675bb8c.txt">
+      <Link>App_Data\WinWrapBasic10\examples-strings-a675bb8c.txt</Link>
     </Content>
     <Content Include="..\Scripts\BlockedParseError.bas">
       <Link>App_Data\Scripts\BlockedParseError.bas</Link>

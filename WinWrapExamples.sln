@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.Extensions", "Examples.Extensions\Examples.Extensions.csproj", "{BFC74454-E203-4343-A36A-19860A0CD279}"
 EndProject
@@ -54,6 +54,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example7 - Virtual File Sys
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example8 - Lifespan", "Example8 - Lifespan\Example8 - Lifespan.csproj", "{E80B655B-094E-4079-8B41-C24A0CA73B8A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example9 - AZW Debug", "Example9 - AZW Debug\Example9 - AZW Debug.csproj", "{7315E2AE-D9F9-45D5-A92F-D99540CE81E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +102,10 @@ Global
 		{E80B655B-094E-4079-8B41-C24A0CA73B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E80B655B-094E-4079-8B41-C24A0CA73B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E80B655B-094E-4079-8B41-C24A0CA73B8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7315E2AE-D9F9-45D5-A92F-D99540CE81E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7315E2AE-D9F9-45D5-A92F-D99540CE81E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7315E2AE-D9F9-45D5-A92F-D99540CE81E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7315E2AE-D9F9-45D5-A92F-D99540CE81E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

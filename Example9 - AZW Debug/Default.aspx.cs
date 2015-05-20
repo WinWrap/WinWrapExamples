@@ -61,7 +61,8 @@ namespace Example
         private string GetPatternString(string pattern)
         {
             // put examples-string.txt in Public Documents\examples
-            string path = DataDirectory() + @"\WinWrapBasic10\examples-strings.txt";
+            //string path = DataDirectory() + @"\WinWrapBasic10\examples-strings.txt";
+            string path = DataDirectory() + @"\WinWrapBasic10\examples-strings-a675bb8c.txt";
             if (!File.Exists(path)) return "00000000-0000-0000-0000-000000000000";
             string strings = File.ReadAllText(path);
             Regex rgx = new Regex(pattern, RegexOptions.Multiline);
