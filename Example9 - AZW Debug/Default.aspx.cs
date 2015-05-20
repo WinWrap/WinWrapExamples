@@ -60,8 +60,9 @@ namespace Example
 
         private string GetPatternString(string pattern)
         {
-            // put GitHub\Working-business\WinWrapExamples\examples-string-a675bb8c.txt
-            //   in "Public Documents\examples"
+            // put GitHub\Working-business\WinWrapExamples\examples\examples-string-a675bb8c.txt
+            //   in "C:\Users\Public\Public Documents\examples"
+            // download Application-a675bb8c.htm to C:\Polar Engineering\WinWrap Basic\Certificates
             string path = DataDirectory() + @"\WinWrapBasic10\examples-strings-a675bb8c.txt";
             if (!File.Exists(path)) return "00000000-0000-0000-0000-000000000000";
             string strings = File.ReadAllText(path);

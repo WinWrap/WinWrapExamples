@@ -64,6 +64,8 @@
     <None Include="Properties\PublishProfiles\thissite.pubxml" />
     <None Include="Properties\PublishProfiles\ww2013e.pubxml" />
     <None Include="Properties\PublishProfiles\wwazwdebug %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\wwazwdebug2 %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\wwazwdebug2.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -155,7 +157,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50406</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
