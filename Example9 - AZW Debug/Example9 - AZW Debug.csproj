@@ -81,7 +81,7 @@
     <Content Include="..\..\..\..\..\..\Program Files %28x86%29\Polar Engineering\WinWrap Basic\Certificates\Application-a675bb8c.htm">
       <Link>App_Data\WinWrapBasic10\Application-a675bb8c.htm</Link>
     </Content>
-    <Content Include="..\..\Working-business\WinWrapExamples\examples\examples-strings-a675bb8c.txt">
+    <Content Include="..\..\..\..\..\Public\Documents\examples\examples-strings-a675bb8c.txt">
       <Link>App_Data\WinWrapBasic10\examples-strings-a675bb8c.txt</Link>
     </Content>
     <Content Include="..\Scripts\BlockedParseError.bas">
