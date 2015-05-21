@@ -94,11 +94,12 @@ namespace Example
                 }
 
                 UTF8Encoding encoding = new UTF8Encoding();
-                byte[] data = encoding.GetBytes(commands);
+                byte[] data = encoding.GetBytes("Commands:\r\n" + commands);
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url_);
                 request.Method = "POST";
                 request.ContentType = "application/x-www-form-urlencoded";
                 request.ContentLength = data.Length;
+                request.Timeout = 5000;
                 try
                 {
                     using (Stream newStream = request.GetRequestStream())
@@ -106,10 +107,9 @@ namespace Example
                         newStream.Write(data, 0, data.Length);
                     }
 
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     // read the response asynchronously
                     response_pending_ = true;
-                    ReadResponseAsync(response, commands);
+                    ReadResponseAsync(request, commands);
                 }
                 catch
                 {
@@ -120,15 +120,21 @@ namespace Example
             }
         }
 
-        private async void ReadResponseAsync(HttpWebResponse response, string commands)
+        private async void ReadResponseAsync(HttpWebRequest request, string commands)
         {
             try
             {
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                 {
                     string text = await reader.ReadToEndAsync();
-                    lock (lock_)
-                        responses_.Append(text);
+                    if (text.StartsWith("Responses:\r\n"))
+                    {
+                        lock (lock_)
+                            responses_.Append(text.Substring(12));
+                    }
+                    else // try again later
+                        commands_.Insert(0, commands);
                 }
             }
             catch
@@ -137,6 +143,7 @@ namespace Example
                 lock (lock_)
                     commands_.Insert(0, commands);
             }
+
 
             response_pending_ = false;
         }

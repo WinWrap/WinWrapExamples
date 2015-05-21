@@ -144,7 +144,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GlobalQueue.cs" />
+    <Compile Include="ApplicationQueue.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Examples.Extensions\Examples.Extensions.csproj">

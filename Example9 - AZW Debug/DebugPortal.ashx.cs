@@ -13,8 +13,8 @@ namespace Example
     /// </summary>
     public class DebugPortal : IHttpHandler
     {
-        private GlobalQueue commands_ = new GlobalQueue("commands");
-        private GlobalQueue responses_ = new GlobalQueue("responses");
+        private ApplicationQueue commands_ = new ApplicationQueue("commands");
+        private ApplicationQueue responses_ = new ApplicationQueue("responses");
 
         public void ProcessRequest(HttpContext context)
         {
@@ -24,14 +24,18 @@ namespace Example
             {
                 string text = sr.ReadToEnd();
                 //Debug.Write(text);
-                if (text.StartsWith("{\"Param\":\"?attach"))
+                if (text.StartsWith("Commands:\r\n"))
                 {
-                    // reset queues
-                    commands_.ReadAll();
-                    responses_.ReadAll();
-                }
+                    text = text.Substring(11);
+                    if (text.StartsWith("{\"Param\":\"?attach"))
+                    {
+                        // reset queues
+                        commands_.ReadAll();
+                        responses_.ReadAll();
+                    }
 
-                commands_.Append(text);
+                    commands_.Append(text);
+                }
             }
 
             // send the response
@@ -40,7 +44,7 @@ namespace Example
                 context.Response.ContentEncoding = Encoding.UTF8;
                 string text = responses_.ReadAll();
                 //Debug.Write(text);
-                context.Response.Write(text);
+                context.Response.Write("Responses:\r\n" + text);
             }
         }
 

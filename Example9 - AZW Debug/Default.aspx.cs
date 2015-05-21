@@ -21,8 +21,8 @@ namespace Example
 {
     public partial class Form1 : Page, IHost
     {
-        private GlobalQueue commands_ = new GlobalQueue("commands");
-        private GlobalQueue responses_ = new GlobalQueue("responses");
+        private ApplicationQueue commands_ = new ApplicationQueue("commands");
+        private ApplicationQueue responses_ = new ApplicationQueue("responses");
 
         private static readonly string[] scripts_ =
         {
@@ -36,6 +36,7 @@ namespace Example
         };
         private bool timedout_;
         private DateTime timelimit_;
+        private bool halted_;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -91,6 +92,7 @@ namespace Example
                 basicNoUIObj.End += basicNoUIObj_End;
                 basicNoUIObj.ErrorAlert += basicNoUIObj_ErrorAlert;
                 basicNoUIObj.Pause_ += basicNoUIObj_Pause_;
+                basicNoUIObj.Resume += basicNoUIObj_Resume;
                 basicNoUIObj.Synchronizing += basicNoUIObj_Synchronizing;
                 basicNoUIObj.Secret = new Guid(GetPatternString("Guid[(]\"(.*)\"[)]"));
                 basicNoUIObj.Initialize();
@@ -110,6 +112,7 @@ namespace Example
                                 // prepare for debugging
                                 basicNoUIObj.Synchronized = true;
                                 module.StepInto = true;
+                                timelimit_ = DateTime.Now + new TimeSpan(0, 0, 30); // timeout in 30 seconds
                             }
 
                             // Execute script code via an event
@@ -121,12 +124,6 @@ namespace Example
             TheIncident = null;
         }
 
-        void basicNoUIObj_Begin(object sender, EventArgs e)
-        {
-            timedout_ = false;
-            timelimit_ = DateTime.Now + new TimeSpan(0, 0, 1);
-        }
-
         void basicNoUIObj_DoEvents(object sender, EventArgs e)
         {
             WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
@@ -136,12 +133,19 @@ namespace Example
                 string commands = commands_.ReadAll();
                 if (!string.IsNullOrEmpty(commands))
                 {
+                    timelimit_ = DateTime.Now + new TimeSpan(0, 0, 10); // timeout in ten seconds
                     dynamic syncs = Json.Decode("[" + commands.Substring(0, commands.Length - 3) + "]");
                     foreach (dynamic sync in syncs)
+                    {
+                        if (sync.Param.StartsWith("end "))
+                            halted_ = true;
+
                         basicNoUIObj.Synchronize(sync.Param, sync.id);
+                    }
                 }
             }
-            else if (DateTime.Now >= timelimit_)
+
+            if (DateTime.Now >= timelimit_)
             {
                 timedout_ = true;
                 // time timelimit has been reached, terminate the script
@@ -149,23 +153,42 @@ namespace Example
             }
         }
 
+        void basicNoUIObj_Begin(object sender, EventArgs e)
+        {
+            WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
+            timedout_ = false;
+            timelimit_ = DateTime.Now + new TimeSpan(0, 0, 1); // timeout in one second
+        }
+
         void basicNoUIObj_End(object sender, EventArgs e)
         {
+            WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
+            if (timedout_ && basicNoUIObj.Error == null)
+            {
+                // timedout
+                LogError(Examples.SharedSource.WinWrapBasic.FormatTimeoutError(basicNoUIObj, timedout_));
+            }
+            else if (halted_)
+            {
+                Log("Execution halted during debugging.");
+            }
+
+            halted_ = false;
         }
 
         void basicNoUIObj_Pause_(object sender, EventArgs e)
         {
             WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
-            if (!basicNoUIObj.Synchronized)
+            if (timedout_ || !basicNoUIObj.Synchronized)
             {
-                // not debugging
-                if (basicNoUIObj.Error == null)
-                {
-                    LogError(Examples.SharedSource.WinWrapBasic.FormatTimeoutError(basicNoUIObj, timedout_));
-                }
+                // timedout or not debugging
                 // Script execution has paused, terminate the script
                 basicNoUIObj.Run = false;
             }
+        }
+
+        void basicNoUIObj_Resume(object sender, EventArgs e)
+        {
         }
 
         void basicNoUIObj_ErrorAlert(object sender, EventArgs e)
