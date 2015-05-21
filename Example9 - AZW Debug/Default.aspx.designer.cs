@@ -49,6 +49,15 @@ namespace Example {
         protected global::System.Web.UI.WebControls.Button ButtonRun;
         
         /// <summary>
+        /// ButtonDebug control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonDebug;
+        
+        /// <summary>
         /// ButtonShow control.
         /// </summary>
         /// <remarks>

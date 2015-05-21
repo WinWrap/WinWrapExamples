@@ -1,9 +1,12 @@
 ﻿using Examples.Extensions;
 using System;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Web.Helpers;
 using System.Web.UI;
-using System.Reflection;
 
 //------------------------------------------------------------------------------
 // <copyright from='2013' to='2014' company='Polar Engineering and Consulting'>
@@ -18,6 +21,9 @@ namespace Example
 {
     public partial class Form1 : Page, IHost
     {
+        private GlobalQueue commands_ = new GlobalQueue("commands");
+        private GlobalQueue responses_ = new GlobalQueue("responses");
+
         private static readonly string[] scripts_ =
         {
             "DOTNet.bas",
@@ -38,14 +44,17 @@ namespace Example
             {
                 Session["Text"] = "";
                 ListBoxScripts_Initialize();
-                //((IPostBackEventHandler)ButtonRun).RaisePostBackEvent(null);
-                
             }
         }
 
         protected void ButtonRun_Click(object sender, EventArgs e)
         {
-            WinWrapExecute();
+            WinWrapExecute(false);
+        }
+
+        protected void ButtonDebug_Click(object sender, EventArgs e)
+        {
+            WinWrapExecute(true);
         }
 
         protected void ButtonShow_Click(object sender, EventArgs e)
@@ -72,15 +81,17 @@ namespace Example
             return smatch;
         }
 
-        private void WinWrapExecute()
+        private void WinWrapExecute(bool debug)
         {
             TheIncident = new Incident();
             using (var basicNoUIObj = new WinWrap.Basic.BasicNoUIObj())
             {
                 basicNoUIObj.Begin += basicNoUIObj_Begin;
                 basicNoUIObj.DoEvents += basicNoUIObj_DoEvents;
+                basicNoUIObj.End += basicNoUIObj_End;
                 basicNoUIObj.ErrorAlert += basicNoUIObj_ErrorAlert;
                 basicNoUIObj.Pause_ += basicNoUIObj_Pause_;
+                basicNoUIObj.Synchronizing += basicNoUIObj_Synchronizing;
                 basicNoUIObj.Secret = new Guid(GetPatternString("Guid[(]\"(.*)\"[)]"));
                 basicNoUIObj.Initialize();
                 basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
@@ -94,6 +105,13 @@ namespace Example
                             LogError(basicNoUIObj.Error);
                         else
                         {
+                            if (debug)
+                            {
+                                // prepare for debugging
+                                basicNoUIObj.Synchronized = true;
+                                module.StepInto = true;
+                            }
+
                             // Execute script code via an event
                             ScriptingLanguage.TheIncident.Start("Default.aspx");
                         }
@@ -111,30 +129,55 @@ namespace Example
 
         void basicNoUIObj_DoEvents(object sender, EventArgs e)
         {
-            if (DateTime.Now >= timelimit_)
+            WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
+            if (basicNoUIObj.Synchronized)
+            {
+                // process pending debugging commands
+                string commands = commands_.ReadAll();
+                if (!string.IsNullOrEmpty(commands))
+                {
+                    dynamic syncs = Json.Decode("[" + commands.Substring(0, commands.Length - 3) + "]");
+                    foreach (dynamic sync in syncs)
+                        basicNoUIObj.Synchronize(sync.Param, sync.id);
+                }
+            }
+            else if (DateTime.Now >= timelimit_)
             {
                 timedout_ = true;
-                WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
                 // time timelimit has been reached, terminate the script
                 basicNoUIObj.Run = false;
             }
         }
 
+        void basicNoUIObj_End(object sender, EventArgs e)
+        {
+        }
+
         void basicNoUIObj_Pause_(object sender, EventArgs e)
         {
             WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
-            if (basicNoUIObj.Error == null)
+            if (!basicNoUIObj.Synchronized)
             {
-                LogError(Examples.SharedSource.WinWrapBasic.FormatTimeoutError(basicNoUIObj, timedout_));
+                // not debugging
+                if (basicNoUIObj.Error == null)
+                {
+                    LogError(Examples.SharedSource.WinWrapBasic.FormatTimeoutError(basicNoUIObj, timedout_));
+                }
+                // Script execution has paused, terminate the script
+                basicNoUIObj.Run = false;
             }
-            // Script execution has paused, terminate the script
-            basicNoUIObj.Run = false;
         }
 
         void basicNoUIObj_ErrorAlert(object sender, EventArgs e)
         {
             WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
             LogError(basicNoUIObj.Error);
+        }
+
+        void basicNoUIObj_Synchronizing(object sender, WinWrap.Basic.Classic.SynchronizingEventArgs e)
+        {
+            string response = Json.Encode(e);
+            responses_.Append(response + ",\r\n");
         }
     }
 }
