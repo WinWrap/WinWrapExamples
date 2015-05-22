@@ -21,8 +21,8 @@ namespace Example
 {
     public partial class Form1 : Page, IHost
     {
-        private ApplicationQueue commands_ = new ApplicationQueue("commands");
-        private ApplicationQueue responses_ = new ApplicationQueue("responses");
+        private ApplicationQueue commands_ = ApplicationQueue.Create("commands");
+        private ApplicationQueue responses_ = ApplicationQueue.Create("responses");
 
         private static readonly string[] scripts_ =
         {

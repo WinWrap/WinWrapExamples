@@ -13,8 +13,8 @@ namespace Example
     /// </summary>
     public class DebugPortal : IHttpHandler
     {
-        private ApplicationQueue commands_ = new ApplicationQueue("commands");
-        private ApplicationQueue responses_ = new ApplicationQueue("responses");
+        private ApplicationQueue commands_ = ApplicationQueue.Create("commands");
+        private ApplicationQueue responses_ = ApplicationQueue.Create("responses");
 
         public void ProcessRequest(HttpContext context)
         {
