@@ -1,11 +1,8 @@
 ﻿using Examples.Extensions;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web.Helpers;
 using System.Web.UI;
 
 //------------------------------------------------------------------------------
@@ -16,6 +13,9 @@ using System.Web.UI;
 //
 // </copyright>
 //------------------------------------------------------------------------------
+
+// how to debug an azure website
+// http://jessekallhoff.com/2014/07/09/remote-debugging-with-windows-azure/
 
 namespace Example
 {
@@ -36,7 +36,6 @@ namespace Example
         };
         private bool timedout_;
         private DateTime timelimit_;
-        private bool halted_;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -55,31 +54,14 @@ namespace Example
 
         protected void ButtonDebug_Click(object sender, EventArgs e)
         {
+            //responses_.Append("Debug");
+            //Thread.Sleep(1000);
             WinWrapExecute(true);
         }
 
         protected void ButtonShow_Click(object sender, EventArgs e)
         {
             Log("");
-        }
-
-        private string DataDirectory()
-        {
-            return AppDomain.CurrentDomain.GetData("DataDirectory").ToString();
-        }
-
-        private string GetPatternString(string pattern)
-        {
-            // put GitHub\Working-business\WinWrapExamples\examples\examples-string-a675bb8c.txt
-            //   in "C:\Users\Public\Public Documents\examples"
-            // download Application-a675bb8c.htm to C:\Polar Engineering\WinWrap Basic\Certificates
-            string path = DataDirectory() + @"\WinWrapBasic10\examples-strings-a675bb8c.txt";
-            if (!File.Exists(path)) return "00000000-0000-0000-0000-000000000000";
-            string strings = File.ReadAllText(path);
-            Regex rgx = new Regex(pattern, RegexOptions.Multiline);
-            MatchCollection matches = rgx.Matches(strings);
-            string smatch = rgx.Match(strings).Groups[1].Value.ToString();
-            return smatch;
         }
 
         private void WinWrapExecute(bool debug)
@@ -94,7 +76,7 @@ namespace Example
                 basicNoUIObj.Pause_ += basicNoUIObj_Pause_;
                 basicNoUIObj.Resume += basicNoUIObj_Resume;
                 basicNoUIObj.Synchronizing += basicNoUIObj_Synchronizing;
-                basicNoUIObj.Secret = new Guid(GetPatternString("Guid[(]\"(.*)\"[)]"));
+                basicNoUIObj.Secret = new Guid(AzureOnlyStrings.GetNamedString("Secret", "00000000-0000-0000-0000-000000000000"));
                 basicNoUIObj.Initialize();
                 basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
                 if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
@@ -113,10 +95,16 @@ namespace Example
                                 basicNoUIObj.Synchronized = true;
                                 module.StepInto = true;
                                 timelimit_ = DateTime.Now + new TimeSpan(0, 0, 30); // timeout in 30 seconds
+                                Log("Debugging...");
                             }
 
                             // Execute script code via an event
                             ScriptingLanguage.TheIncident.Start("Default.aspx");
+
+                            if (debug)
+                            {
+                                Log("Debugging complete.");
+                            }
                         }
                     }
                 }
@@ -134,13 +122,13 @@ namespace Example
                 if (!string.IsNullOrEmpty(commands))
                 {
                     timelimit_ = DateTime.Now + new TimeSpan(0, 0, 10); // timeout in ten seconds
-                    dynamic syncs = Json.Decode("[" + commands.Substring(0, commands.Length - 3) + "]");
-                    foreach (dynamic sync in syncs)
+                    string[] commands2 = commands.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string command in commands2)
                     {
-                        if (sync.Param.StartsWith("end "))
-                            halted_ = true;
-
-                        basicNoUIObj.Synchronize(sync.Param, sync.id);
+                        string[] parts = command.Split(new char[] { ' ' }, 2);
+                        int id = int.Parse(parts[0]);
+                        string param = Encoding.UTF8.GetString(Convert.FromBase64String(parts[1]));
+                        basicNoUIObj.Synchronize(param, id);
                     }
                 }
             }
@@ -168,20 +156,19 @@ namespace Example
                 // timedout
                 LogError(Examples.SharedSource.WinWrapBasic.FormatTimeoutError(basicNoUIObj, timedout_));
             }
-            else if (halted_)
-            {
-                Log("Execution halted during debugging.");
-            }
-
-            halted_ = false;
         }
 
         void basicNoUIObj_Pause_(object sender, EventArgs e)
         {
             WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
+            // timedout or paused while not debugging
             if (timedout_ || !basicNoUIObj.Synchronized)
             {
-                // timedout or not debugging
+                if (basicNoUIObj.Error == null)
+                {
+                    LogError(Examples.SharedSource.WinWrapBasic.FormatTimeoutError(basicNoUIObj, timedout_));
+                }
+
                 // Script execution has paused, terminate the script
                 basicNoUIObj.Run = false;
             }
@@ -199,8 +186,8 @@ namespace Example
 
         void basicNoUIObj_Synchronizing(object sender, WinWrap.Basic.Classic.SynchronizingEventArgs e)
         {
-            string response = Json.Encode(e);
-            responses_.Append(response + ",\r\n");
+            string response = e.Id + " " + Convert.ToBase64String(Encoding.UTF8.GetBytes(e.Param)) + "\r\n";
+            responses_.Append(response);
         }
     }
 }

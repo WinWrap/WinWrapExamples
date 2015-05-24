@@ -9,7 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Helpers;
 using System.Windows.Forms;
 
 namespace Example
@@ -49,13 +48,9 @@ namespace Example
 
         private void basicIdeCtl1_Synchronizing(object sender, WinWrap.Basic.Classic.SynchronizingEventArgs e)
         {
-            // Json.Encode fails if the project's "Enable Visual Studio hosting process" is checked (Debug sheet)
-            string command = Json.Encode(e);
+            string command = e.Id + " " + Convert.ToBase64String(Encoding.UTF8.GetBytes(e.Param)) + "\r\n";
             lock (lock_)
-            {
                 commands_.Append(command);
-                commands_.Append(",\r\n");
-            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -70,11 +65,14 @@ namespace Example
 
             if (!string.IsNullOrEmpty(responses))
             {
-                Debug.Print("  <<<Responses<<<");
-                Debug.Write(responses);
-                dynamic syncs = Json.Decode("[" + responses.Substring(0, responses.Length - 3) + "]");
-                foreach (dynamic sync in syncs)
-                    basicIdeCtl1.Synchronize(sync.Param, sync.id);
+                string[] responses2 = responses.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string response in responses2)
+                {
+                    string[] parts = response.Split(new char[] { ' ' }, 2);
+                    int id = int.Parse(parts[0]);
+                    string param = Encoding.UTF8.GetString(Convert.FromBase64String(parts[1]));
+                    basicIdeCtl1.Synchronize(param, id);
+                }
             }
 
             if (!response_pending_)
@@ -87,14 +85,7 @@ namespace Example
                     commands_.Clear();
                 }
 
-                if (!string.IsNullOrEmpty(commands))
-                {
-                    Debug.Print("  >>>Commands>>>");
-                    Debug.Write(commands);
-                }
-
-                UTF8Encoding encoding = new UTF8Encoding();
-                byte[] data = encoding.GetBytes("Commands:\r\n" + commands);
+                byte[] data = Encoding.UTF8.GetBytes("Commands:\r\n" + commands);
                 HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url_);
                 request.Method = "POST";
                 request.ContentType = "application/x-www-form-urlencoded";

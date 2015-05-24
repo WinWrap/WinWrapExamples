@@ -22,7 +22,7 @@
                         <asp:Button ID="ButtonShow" runat="server" OnClick="ButtonShow_Click" Text="Show" /></td>
                 </tr>
             </table>
-            <pre style="border: 1px solid black; width: 600px; height: 80px; overflow: auto; background-color: #FFFF00;"><asp:Label ID="LabelLog" runat="server" Text=""></asp:Label></pre>
+            <pre style="border: 1px solid black; width: 600px; height: 120px; overflow: auto; background-color: #FFFF00;"><asp:Label ID="LabelLog" runat="server" Text=""></asp:Label></pre>
             <pre><asp:Label ID="LabelCode" runat="server"></asp:Label></pre>
             <p>
                 <img border="0" src="http://www.winwrap.com/web/header2.asp<% {Response.Write("?zz=" + Request.QueryString["zz"]);} %>" /></p>
