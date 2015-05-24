@@ -76,7 +76,7 @@ namespace Example
                 basicNoUIObj.Pause_ += basicNoUIObj_Pause_;
                 basicNoUIObj.Resume += basicNoUIObj_Resume;
                 basicNoUIObj.Synchronizing += basicNoUIObj_Synchronizing;
-                basicNoUIObj.Secret = new Guid(AzureOnlyStrings.GetNamedString("Secret", "00000000-0000-0000-0000-000000000000"));
+                basicNoUIObj.Secret = new Guid(AzureOnlyStrings.GetNamedString("Guid", "00000000-0000-0000-0000-000000000000"));
                 basicNoUIObj.Initialize();
                 basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
                 if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
