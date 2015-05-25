@@ -125,10 +125,14 @@ namespace Example
                     string[] commands2 = commands.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string command in commands2)
                     {
-                        string[] parts = command.Split(new char[] { ' ' }, 2);
-                        int id = int.Parse(parts[0]);
-                        string param = Encoding.UTF8.GetString(Convert.FromBase64String(parts[1]));
-                        basicNoUIObj.Synchronize(param, id);
+                        // ignore heartbeat (only used to reset the timelimit)
+                        if (command != "*")
+                        {
+                            string[] parts = command.Split(new char[] { ' ' }, 2);
+                            int id = int.Parse(parts[0]);
+                            string param = Encoding.UTF8.GetString(Convert.FromBase64String(parts[1]));
+                            basicNoUIObj.Synchronize(param, id);
+                        }
                     }
                 }
             }

@@ -20,6 +20,7 @@ namespace Example
         private StringBuilder responses_ = new StringBuilder();
         private bool response_pending_;
         private static object lock_ = new object();
+        private Form3 log_;
 
         public Form1()
         {
@@ -41,6 +42,9 @@ namespace Example
 #endif
             url_ = "http://" + server + "/DebugPortal.ashx";
 
+            log_ = new Form3();
+            log_.Show();
+
             // start synchronizing with the remote
             basicIdeCtl1.Synchronized = true;
             timer1.Enabled = true;
@@ -48,6 +52,7 @@ namespace Example
 
         private void basicIdeCtl1_Synchronizing(object sender, WinWrap.Basic.Classic.SynchronizingEventArgs e)
         {
+            log_.Append(" >> " + e.Param);
             string command = e.Id + " " + Convert.ToBase64String(Encoding.UTF8.GetBytes(e.Param)) + "\r\n";
             lock (lock_)
                 commands_.Append(command);
@@ -71,6 +76,7 @@ namespace Example
                     string[] parts = response.Split(new char[] { ' ' }, 2);
                     int id = int.Parse(parts[0]);
                     string param = Encoding.UTF8.GetString(Convert.FromBase64String(parts[1]));
+                    log_.Append(" << " + param.Split(new string[] { "\r\n" }, 2, StringSplitOptions.None)[0]);
                     basicIdeCtl1.Synchronize(param, id);
                 }
             }

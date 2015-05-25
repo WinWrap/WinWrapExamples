@@ -34,7 +34,8 @@ namespace Example
                         responses_.ReadAll();
                     }
 
-                    commands_.Append(text);
+                    // * is a heartbeat command
+                    commands_.Append("*\r\n" + text);
                 }
             }
 
