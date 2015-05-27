@@ -55,39 +55,32 @@ namespace Example
                 // Add "Imports Examples.Extensions.ScriptingLanguage" all WinWrap Basic scripts
                 basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
 
-                if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
-                    LogError(basicNoUIObj.Error);
-                else
+                try
                 {
+                    if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
+                        throw basicNoUIObj.Error.Exception;
+
                     using (var module = basicNoUIObj.ModuleInstance(ScriptPath(Script), false))
                     {
-                        if (module == null)
+                        if (module == null) // script parsing error
+                            throw basicNoUIObj.Error.Exception;
+
+                        using (var instance = basicNoUIObj.CreateInstance(ScriptPath(Script) + "<IncidentAction"))
                         {
-                            // script parsing error
-                            LogError(basicNoUIObj.Error);
-                        }
-                        else
-                        {
-                            try
-                            {
-                                using (var instance = basicNoUIObj.CreateInstance(ScriptPath(Script) + "<IncidentAction"))
-                                {
-                                    // Execute script code via an interface
-                                    IIncidentAction action = instance.Cast<IIncidentAction>();
-                                    TheIncident.Start(action, this.Text);
-                                }
-                            }
-                            catch (WinWrap.Basic.TerminatedException)
-                            {
-                                // script execution terminated, ignore error
-                            }
-                            catch (Exception ex)
-                            {
-                                // script caused an exception
-                                basicNoUIObj.ReportError(ex);
-                            }
+                            // Execute script code via an interface
+                            IIncidentAction action = instance.Cast<IIncidentAction>();
+                            TheIncident.Start(action, this.Text);
                         }
                     }
+                }
+                catch (WinWrap.Basic.TerminatedException)
+                {
+                    // script execution terminated, ignore error
+                }
+                catch (Exception ex)
+                {
+                    // script caused an exception
+                    basicNoUIObj.ReportError(ex);
                 }
             }
             TheIncident = null;

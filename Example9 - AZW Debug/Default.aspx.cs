@@ -79,37 +79,75 @@ namespace Example
                 basicNoUIObj.Secret = new Guid(AzureOnlyStrings.GetNamedString("Guid", "00000000-0000-0000-0000-000000000000"));
                 basicNoUIObj.Initialize();
                 basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
-                if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
-                    LogError(basicNoUIObj.Error);
-                else
+
+                if (debug)
                 {
+                    // prepare for debugging
+                    basicNoUIObj.Synchronized = true;
+                    Log("Debugging...");
+                }
+
+                try
+                {
+                    if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
+                        throw basicNoUIObj.Error.Exception;
+
                     using (var module = basicNoUIObj.ModuleInstance(ScriptPath(Script), false))
                     {
                         if (module == null)
-                            LogError(basicNoUIObj.Error);
-                        else
+                            throw basicNoUIObj.Error.Exception;
+
+                        if (debug)
                         {
-                            if (debug)
-                            {
-                                // prepare for debugging
-                                basicNoUIObj.Synchronized = true;
-                                module.StepInto = true;
-                                timelimit_ = DateTime.Now + new TimeSpan(0, 0, 30); // timeout in 30 seconds
-                                Log("Debugging...");
-                            }
-
-                            // Execute script code via an event
-                            ScriptingLanguage.TheIncident.Start("Default.aspx");
-
-                            if (debug)
-                            {
-                                Log("Debugging complete.");
-                            }
+                            // step into the script event handler
+                            module.StepInto = true;
+                            timelimit_ = DateTime.Now + new TimeSpan(0, 0, 30); // timeout in 30 seconds
                         }
+
+                        // Execute script code via an event
+                        ScriptingLanguage.TheIncident.Start("Default.aspx");
                     }
+                }
+                catch (Exception ex)
+                {
+                    if (debug)
+                    {
+                        // report error and allow remote to catch up
+                        basicNoUIObj.ReportError(ex);
+                        basicNoUIObj.Wait(3);
+                    }
+
+                    basicNoUIObj.ReportError(ex);
+                }
+
+                if (debug)
+                {
+                    basicNoUIObj.Wait(1);
+                    Log("Debugging complete.");
                 }
             }
             TheIncident = null;
+        }
+
+        private void ProcessSynchronizingEvents(WinWrap.Basic.BasicNoUIObj basicNoUIObj)
+        {
+            string commands = commands_.ReadAll();
+            if (!string.IsNullOrEmpty(commands))
+            {
+                timelimit_ = DateTime.Now + new TimeSpan(0, 0, 10); // timeout in ten seconds
+                string[] commands2 = commands.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string command in commands2)
+                {
+                    // ignore heartbeat (only used to reset the timelimit)
+                    if (command != "*")
+                    {
+                        string[] parts = command.Split(new char[] { ' ' }, 2);
+                        int id = int.Parse(parts[0]);
+                        string param = Encoding.UTF8.GetString(Convert.FromBase64String(parts[1]));
+                        basicNoUIObj.Synchronize(param, id);
+                    }
+                }
+            }
         }
 
         void basicNoUIObj_DoEvents(object sender, EventArgs e)
@@ -118,26 +156,10 @@ namespace Example
             if (basicNoUIObj.Synchronized)
             {
                 // process pending debugging commands
-                string commands = commands_.ReadAll();
-                if (!string.IsNullOrEmpty(commands))
-                {
-                    timelimit_ = DateTime.Now + new TimeSpan(0, 0, 10); // timeout in ten seconds
-                    string[] commands2 = commands.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (string command in commands2)
-                    {
-                        // ignore heartbeat (only used to reset the timelimit)
-                        if (command != "*")
-                        {
-                            string[] parts = command.Split(new char[] { ' ' }, 2);
-                            int id = int.Parse(parts[0]);
-                            string param = Encoding.UTF8.GetString(Convert.FromBase64String(parts[1]));
-                            basicNoUIObj.Synchronize(param, id);
-                        }
-                    }
-                }
+                ProcessSynchronizingEvents(basicNoUIObj);
             }
 
-            if (DateTime.Now >= timelimit_)
+            if (basicNoUIObj.Run && DateTime.Now >= timelimit_)
             {
                 timedout_ = true;
                 // time timelimit has been reached, terminate the script

@@ -82,20 +82,24 @@ namespace Example
                 basicNoUIObj.Secret = new Guid(GetPatternString("Guid[(]\"(.*)\"[)]"));
                 basicNoUIObj.Initialize();
                 basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
-                if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
-                    LogError(basicNoUIObj.Error);
-                else
+
+                try
                 {
+                    if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
+                        throw basicNoUIObj.Error.Exception;
+
                     using (var module = basicNoUIObj.ModuleInstance(ScriptPath(Script), false))
                     {
                         if (module == null)
-                            LogError(basicNoUIObj.Error);
-                        else
-                        {
-                            // Execute script code via an event
-                            ScriptingLanguage.TheIncident.Start("Default.aspx");
-                        }
+                            throw basicNoUIObj.Error.Exception;
+
+                        // Execute script code via an event
+                        ScriptingLanguage.TheIncident.Start("Default.aspx");
                     }
+                }
+                catch (Exception ex)
+                {
+                    basicNoUIObj.ReportError(ex);
                 }
             }
             TheIncident = null;
