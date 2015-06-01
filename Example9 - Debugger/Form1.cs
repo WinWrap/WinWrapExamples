@@ -141,7 +141,6 @@ namespace Example
                     commands_.Insert(0, commands);
             }
 
-
             response_pending_ = false;
         }
 
