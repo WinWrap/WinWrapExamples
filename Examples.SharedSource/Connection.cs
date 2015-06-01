@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -22,34 +23,56 @@ namespace Example
 			}
 		}
 
-		private Socket m_socket;
-		private int m_id;
-		private ReceivedDataDelegate m_recvDelegate;
-		private StringBuilder m_sbRecv = new StringBuilder();
+		private Socket socket_;
+		private int id_;
+		private StringBuilder sbRecv_ = new StringBuilder();
+        private object lock_ = new object();
 
-		private static int s_id;
+		private static int idNext_;
 
 		public Socket Socket
 		{
-			get { return m_socket; }
+			get { return socket_; }
 		}
 
-		public Connection(Socket socket, ReceivedDataDelegate recvDelegate)
+		public Connection(Socket socket)
 		{
-			m_id = s_id;
-			if (++s_id < 0)
-				s_id = 0;
+			id_ = idNext_;
+			if (++idNext_ < 0)
+				idNext_ = 0;
 
-			m_socket = socket;
-			m_recvDelegate = recvDelegate;
+			socket_ = socket;
 			Recv_Start();
 		}
+
+        public Connection(string address, int port) : this(CreateSocket(address, port))
+        {
+        }
+
+        public string[] GetReceviedData(string separator)
+        {
+            lock (lock_)
+            {
+                string data = sbRecv_.ToString();
+                sbRecv_.Clear();
+                int x = data.LastIndexOf(separator);
+                if (x == -1)
+                    sbRecv_.Append(data);
+                else
+                {
+                    sbRecv_.Append(data.Substring(x + 2));
+                    data = data.Substring(0, x);
+                }
+
+                return data.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+            }
+        }
 
 		public void Close()
 		{
 			try
 			{
-				m_socket.Close();
+				socket_.Close();
 			}
 			catch
 			{
@@ -58,18 +81,18 @@ namespace Example
 
 		public bool Connected
 		{
-			get { return m_socket.Connected; }
+			get { return socket_.Connected; }
 		}
 
 		public int Id
 		{
-			get { return m_id; }
+			get { return id_; }
 		}
 
 		public void Recv_Start()
 		{
 			StateObject so = new StateObject(0x1000);
-			m_socket.BeginReceive(so.buffer, 0, so.buffer.Length, 0,
+			socket_.BeginReceive(so.buffer, 0, so.buffer.Length, 0,
 				new AsyncCallback(Recv_Callback), so);
 		}
 
@@ -79,36 +102,33 @@ namespace Example
 				return;
 											
 			int send = Encoding.UTF8.GetByteCount(data);
-			StateObject so = new StateObject(send+1);
-			encoding.GetBytes(data, 0, send, so.buffer, 0);
-			so.buffer[send] = 0x1a;
-			m_socket.BeginSend(so.buffer, 0, so.buffer.Length, SocketFlags.None,
+			StateObject so = new StateObject(send);
+            Encoding.UTF8.GetBytes(data, 0, send, so.buffer, 0);
+			socket_.BeginSend(so.buffer, 0, so.buffer.Length, SocketFlags.None,
 				new AsyncCallback(Sent_Callback), so);
 		}
+
+        private static Socket CreateSocket(string address, int port)
+        {
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            IPAddress ip = IPAddress.Parse(address);
+            IPEndPoint ep = new IPEndPoint(ip, port);
+            socket.Connect(ep);
+            return socket;
+        }
 
 		private void Recv_Callback(IAsyncResult ar)
 		{
 			try
 			{
 				StateObject so = (StateObject)ar.AsyncState;
-				int read = m_socket.EndReceive(ar);
-				if (read > 0)
-				{
-					int first = 0;
-					for (int i = 0; i < read; ++i)
-						if (so.buffer[i] == 0x1a)
-						{
-                            m_sbRecv.Append(Encoding.UTF8.GetString(so.buffer, first, i - first));
-							String s = m_sbRecv.ToString();
-							m_sbRecv.Length = 0;
-							if (s.Length > 0)
-								m_recvDelegate(this, s);
-
-							first = i + 1;
-						}
-
-                    m_sbRecv.Append(Encoding.UTF8.GetString(so.buffer, first, read - first));
-				}
+				int read = socket_.EndReceive(ar);
+                if (read > 0)
+                {
+                    string data = Encoding.UTF8.GetString(so.buffer, 0, read);
+                    lock (lock_)
+                        sbRecv_.Append(data);
+                }
 
 				Recv_Start();
 			}
@@ -123,4 +143,69 @@ namespace Example
 			StateObject so = (StateObject)ar.AsyncState;
 		}
 	}
+
+    public class Connections : IDisposable
+    {
+        private Socket listenSocket_;
+        private List<Connection> conns_ = new List<Connection>();
+        private object lock_ = new object();
+
+        public bool Any
+        {
+            get
+            {
+                lock (lock_)
+                    return conns_.Count > 0;
+            }
+        }
+
+        public Connections(int port)
+        {
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.Blocking = false;
+            IPEndPoint ep = new IPEndPoint(IPAddress.Any, port);
+            socket.Bind(ep);
+            socket.Listen(5);
+            socket.BeginAccept(new AsyncCallback(Listen_Callback), socket);
+            listenSocket_ = socket;
+        }
+
+        public void Dispose()
+        {
+            if (listenSocket_ != null)
+            {
+                lock (lock_)
+                {
+                    while (conns_.Count > 0)
+                    {
+                        Connection conn = conns_[0];
+                        conn.Close();
+                        conns_.Remove(conn);
+                    }
+                }
+
+                listenSocket_.Close();
+                listenSocket_ = null;
+            }
+        }
+
+        public void ForEachConnection(Action<Connection> process)
+        {
+            lock (lock_)
+                foreach (Connection conn in conns_)
+                    process(conn);
+        }
+
+        private void Listen_Callback(IAsyncResult ar)
+        {
+            Socket s = (Socket)ar.AsyncState;
+            Socket s2 = s.EndAccept(ar);
+            Connection conn = new Connection(s2);
+
+            lock (lock_)
+                conns_.Add(conn);
+
+            listenSocket_.BeginAccept(new AsyncCallback(Listen_Callback), listenSocket_);
+        }
+    }
 }

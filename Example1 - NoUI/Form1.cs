@@ -46,8 +46,8 @@ namespace Example
             {
                 basicNoUIObj.Begin += basicNoUIObj_Begin;
                 basicNoUIObj.DoEvents += basicNoUIObj_DoEvents;
-                basicNoUIObj.ErrorAlert += basicNoUIObj__ErrorAlert;
-                basicNoUIObj.Pause_ += basicNoUIObj__Pause_;
+                basicNoUIObj.ErrorAlert += basicNoUIObj_ErrorAlert;
+                basicNoUIObj.Pause_ += basicNoUIObj_Pause_;
                 basicNoUIObj.Secret = new System.Guid("00000000-0000-0000-0000-000000000000");
                 basicNoUIObj.Initialize();
                 /// Extend WinWrap Basic scripts with Examples.Extensions assembly
@@ -55,20 +55,23 @@ namespace Example
                 /// Add "Imports Examples.Extensions.ScriptingLanguage" all WinWrap Basic scripts
                 basicNoUIObj.AddScriptableObjectModel(typeof(ScriptingLanguage));
 
-                if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
-                    LogError(basicNoUIObj.Error);
-                else
+                try
                 {
+                    if (!basicNoUIObj.LoadModule(ScriptPath("Globals.bas")))
+                        throw basicNoUIObj.Error.Exception;
+
                     using (var module = basicNoUIObj.ModuleInstance(ScriptPath(Script), false))
                     {
                         if (module == null)
-                            LogError(basicNoUIObj.Error);
-                        else
-                        {
-                            // Execute script code via an event
-                            ScriptingLanguage.TheIncident.Start(this.Text);
-                        }
+                            throw basicNoUIObj.Error.Exception;
+
+                        // Execute script code via an event
+                        ScriptingLanguage.TheIncident.Start(this.Text);
                     }
+                }
+                catch (Exception ex)
+                {
+                    basicNoUIObj.ReportError(ex);
                 }
             }
 
@@ -92,13 +95,13 @@ namespace Example
             }
         }
 
-        void basicNoUIObj__ErrorAlert(object sender, EventArgs e)
+        void basicNoUIObj_ErrorAlert(object sender, EventArgs e)
         {
             WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
             LogError(basicNoUIObj.Error);
         }
 
-        void basicNoUIObj__Pause_(object sender, EventArgs e)
+        void basicNoUIObj_Pause_(object sender, EventArgs e)
         {
             WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
             // Script execution has paused, terminate the script

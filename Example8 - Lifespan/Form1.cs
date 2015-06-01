@@ -69,8 +69,8 @@ namespace Example
             basicNoUIObj.Begin += basicNoUIObj_Begin;
             basicNoUIObj.Disconnecting += basicNoUIObj_Disconnecting;
             basicNoUIObj.DoEvents += basicNoUIObj_DoEvents;
-            basicNoUIObj.ErrorAlert += basicNoUIObj__ErrorAlert;
-            basicNoUIObj.Pause_ += basicNoUIObj__Pause_;
+            basicNoUIObj.ErrorAlert += basicNoUIObj_ErrorAlert;
+            basicNoUIObj.Pause_ += basicNoUIObj_Pause_;
             basicNoUIObj.Secret = new System.Guid("00000000-0000-0000-0000-000000000000");
             basicNoUIObj.Initialize();
             // automatically disconnect BasicNoUIObj when form closes
@@ -180,13 +180,13 @@ namespace Example
             }
         }
 
-        void basicNoUIObj__ErrorAlert(object sender, EventArgs e)
+        void basicNoUIObj_ErrorAlert(object sender, EventArgs e)
         {
             WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
             LogError(basicNoUIObj.Error);
         }
 
-        void basicNoUIObj__Pause_(object sender, EventArgs e)
+        void basicNoUIObj_Pause_(object sender, EventArgs e)
         {
             WinWrap.Basic.BasicNoUIObj basicNoUIObj = sender as WinWrap.Basic.BasicNoUIObj;
             if (basicNoUIObj.Error == null)
