@@ -15,7 +15,6 @@ namespace Example
     public partial class Form1 : Form
     {
         Connection conn_;
-        private StringBuilder commands_ = new StringBuilder();
         private Form3 log_;
 
         public Form1()
@@ -47,7 +46,7 @@ namespace Example
         {
             log_.Append(" >> " + e.Param);
             string command = Convert.ToBase64String(Encoding.UTF8.GetBytes(e.Param)) + "\r\n";
-            commands_.Append(command);
+            conn_.Send(command);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -59,19 +58,6 @@ namespace Example
                 string param = Encoding.UTF8.GetString(Convert.FromBase64String(response));
                 log_.Append(" << " + param.Split(new string[] { "\r\n" }, 2, StringSplitOptions.None)[0]);
                 basicIdeCtl1.Synchronize(param, 0); // id is ignored
-            }
-
-            string commands = commands_.ToString();
-            commands_.Clear();
-                
-            try
-            {
-                conn_.Send(commands);
-            }
-            catch
-            {
-                // ignore failures, try again later
-                commands_.Insert(0, commands);
             }
         }
 
