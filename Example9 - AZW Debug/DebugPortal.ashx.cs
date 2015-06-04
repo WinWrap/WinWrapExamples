@@ -27,20 +27,19 @@ namespace Example
                 if (text.StartsWith("Commands:\r\n"))
                 {
                     text = text.Substring(11);
-                    if (text.StartsWith("{\"Param\":\"?attach"))
-                    {
-                        // reset queues
-                        commands_.ReadAll();
-                        responses_.ReadAll();
-                    }
+                    if (text == "")
+                        text = "*\r\n"; // * is a heartbeat command
 
-                    // * is a heartbeat command
-                    commands_.Append("*\r\n" + text);
+                    commands_.Append(text);
                 }
             }
 
             // send the response
             {
+                // Access-Control-Allow-Origin: *
+                // Access-Control-Allow-Headers: X-Requested-With
+                context.Response.AddHeader("Access-Control-Allow-Origin", "*");
+                context.Response.AddHeader("Access-Control-Allow-Headers", "X-Requested-With");
                 context.Response.ContentType = "text/plain";
                 context.Response.ContentEncoding = Encoding.UTF8;
                 string text = responses_.ReadAll();
