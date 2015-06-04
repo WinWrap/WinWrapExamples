@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html PUBLIC"-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Client</title>
+    <link href="wwbnet_rc.css" rel="stylesheet" type="text/css" />
+    <script src="jquery-1.11.0.js"></script>
+    <script src="ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="theme-wwbnet.js" type="text/javascript" charset="utf-8"></script>
+    <script src="mode-wwbnet.js" type="text/javascript" charset="utf-8"></script>
+    <script src="wwbnet_rc.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <p><span id="debugger-caption" class="wwbnet_rc-caption"></span> - <span id="debugger-state" class="wwbnet_rc-state"></span></p>
+    <input id="debugger-attach" class="wwbnet_rc-attach-button" type="button" value="Attach" />
+    <input id="debugger-run" class="wwbnet_rc-run-button" type="button" value="Run" />
+    <input id="debugger-pause" class="wwbnet_rc-pause-button" type="button" value="Pause"/>
+    <input id="debugger-end" class="wwbnet_rc-end-button" type="button" value="End"/>
+    <input id="debugger-into" class="wwbnet_rc-into-button" type="button" value="Step Into"/>
+    <input id="debugger-over" class="wwbnet_rc-over-button" type="button" value="Step Over"/>
+    <input id="debugger-out" class="wwbnet_rc-out-button" type="button" value="Step Out"/>
+    <div id="debugger"></div>
+    <hr />
+    <pre><span id="debugger-output" class="wwbnet_rc-output"></span></pre>
+    <script>
+        window.onload = function () {
+            wwbnet_rc.initialize('debugger', 1); // sync_id = 1
+        };
+    </script>
+    <script>
+    </script>
+</body>
+</html>
