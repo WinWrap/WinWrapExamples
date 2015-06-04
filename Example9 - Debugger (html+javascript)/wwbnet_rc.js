@@ -480,9 +480,6 @@ wwbnet_rc = (function () {
                     temp = commands;
                     commands_sent = commands;
                     commands = '';
-                    if (temp == '') {
-                        temp = '*\r\n'; // heartbeat
-                    }
                     response_pending = true;
                     $.ajax({
                         url: 'http://wwazwdebug2.azurewebsites.net/DebugPortal.ashx',
