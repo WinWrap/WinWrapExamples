@@ -14,17 +14,18 @@ namespace Example
 {
     public abstract class ApplicationQueue
     {
-        public static ApplicationQueue Create(string name)
+        public static ApplicationQueue Create(params string[] names)
         {
 #if false
             if (HttpContext.Current.Request["SERVER_NAME"] != "localhost")
-                return new AzureApplicationQueue(name);
+                return new AzureApplicationQueue(names);
 #endif
 
-            return new HttpApplicationQueue(name);
+            return new HttpApplicationQueue(names);
         }
 
         public abstract void Append(string text);
+        public abstract void Delete();
         public abstract string ReadAll();
     }
 
@@ -32,9 +33,9 @@ namespace Example
     {
         public string Name { get; private set; }
 
-        public HttpApplicationQueue(string name)
+        public HttpApplicationQueue(params string[] names)
         {
-            Name = "HttpApplicationQueue/" + name;
+            Name = "HttpApplicationQueue/" + string.Join("/", names);
         }
 
         public override void Append(string text)
@@ -43,6 +44,12 @@ namespace Example
             appstate.Lock();
             appstate[Name] = (string)appstate[Name] + text;
             appstate.UnLock();
+        }
+
+        public override void Delete()
+        {
+            HttpApplicationState appstate = HttpContext.Current.Application;
+            appstate.Remove(Name);
         }
 
         public override string ReadAll()
@@ -61,12 +68,12 @@ namespace Example
     {
         private CloudQueue queue_;
 
-        public AzureApplicationQueue(string name)
+        public AzureApplicationQueue(params string[] names)
         {
             // Create a storage account
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(AzureOnlyStrings.GetNamedString("QueueConnection"));
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
-            queue_ = queueClient.GetQueueReference(name.ToLowerInvariant());
+            queue_ = queueClient.GetQueueReference(string.Join("/", names).ToLowerInvariant());
             queue_.CreateIfNotExists();
         }
 
@@ -79,6 +86,11 @@ namespace Example
                 CloudQueueMessage message = new CloudQueueMessage(text);
                 queue_.AddMessageAsync(message);
             }
+        }
+
+        public override void Delete()
+        {
+            throw new NotImplementedException();
         }
 
         public override string ReadAll()

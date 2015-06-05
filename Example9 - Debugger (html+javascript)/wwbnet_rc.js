@@ -26,6 +26,7 @@ wwbnet_rc = (function () {
     var responses = '';
     var response_pending = false;
     var statecounter = 0;
+    var trace = false;
     var sync_handlers = {
         // !attach params
         // Version=<version>
@@ -361,16 +362,14 @@ wwbnet_rc = (function () {
     };
     function process(data) {
         if (data != '') {
-            var parts = data.split(' ', 2);
-            var id = +parts[0];
-            var param = atob(parts[1]);
+            var param = atob(data);
             var sync = 'sync_' + param.match(/^\!(.*?)( |$)/m)[1].toLowerCase();
-            // debugprint(' << ' + param.split('\r\n', 2)[0] + '\r\n');
-            sync_handlers[sync](param, id);
+            if (trace) debugprint(' << ' + param.split('\r\n', 2)[0] + '\r\n');
+            sync_handlers[sync](param);
         }
     }
     function synchronize(data) {
-        // debugprint(' >> ' + data.split('\r\n', 2)[0] + '\r\n');
+        if (trace) debugprint(' >> ' + data.split('\r\n', 2)[0] + '\r\n');
         var s = sync_id + ' ' + btoa(data);
         commands += s + '\r\n';
     }
@@ -379,7 +378,7 @@ wwbnet_rc = (function () {
         response_pending = false;
         error_count = 0;
         if (data.substr(0, 12) == 'Responses:\r\n' && data.length > 12) {
-            responses += data.substr(12) + '\r\n';
+            responses += data.substr(12);
         }
     }
     function synchronizing_error(jqxhr, settings, errorThrown) {
@@ -461,46 +460,12 @@ wwbnet_rc = (function () {
     function update_state(text) {
         visual.state.each(function (index, item) { item.textContent = text; });
     }
-    function attach() {
-        if (interval_id == null) {
-            error_count = 0;
-            synchronize('?attach "10.30.072/32W{1600} - 6/2/2015 6:50:37 PM');
-            interval_id = window.setInterval(function () {
-                if (++statecounter == 8) {
-                    //synchronize_buttons();
-                }
-                if (responses != '') {
-                    // process received responses
-                    var temp = responses.split('\r\n');
-                    responses = '';
-                    temp.forEach(function (data) { process(data); });
-                }
-                if (!response_pending) {
-                    // send pending commands
-                    temp = commands;
-                    commands_sent = commands;
-                    commands = '';
-                    response_pending = true;
-                    $.ajax({
-                        url: 'http://wwazwdebug2.azurewebsites.net/DebugPortal.ashx',
-                        type: 'POST',
-                        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                        data: 'Commands:\r\n' + temp,
-                        dataType: 'text',
-                        success: synchronizing,
-                        error: synchronizing_error
-                    });
-                }
-            }, 250);
-        }
-    }
     function detach() {
         clearInterval(interval_id);
         interval_id = null;
         update_buttons(true, false);
         update_state("unattached");
         error_count = 0;
-        sync_id = 0;
         currentfilename = '?A1';
         currentcaption = null;
         currentline = null;
@@ -538,7 +503,6 @@ wwbnet_rc = (function () {
                 output: alleditorids.filter('.wwbnet_rc-output'),
             };
             detach();
-            visual.attach.click(function () { attach(); });
             visual.run.click(function () { synchronize('run "' + currentfilename + '"'); });
             visual.pause.click(function () { synchronize('pause'); });
             visual.end.click(function () { synchronize('end "' + currentfilename + '"'); });
@@ -546,5 +510,41 @@ wwbnet_rc = (function () {
             visual.over.click(function () { synchronize('over "' + currentfilename + '"'); });
             visual.out.click(function () { synchronize('out "' + currentfilename + '"'); });
         },
+        attach: function (server, target) {
+            if (interval_id == null) {
+                error_count = 0;
+                synchronize('?attach "10.30.072/32W{1600} - 6/2/2015 6:50:37 PM');
+                interval_id = window.setInterval(function () {
+                    if (++statecounter == 8) {
+                        //synchronize_buttons();
+                    }
+                    if (responses != '') {
+                        // process received responses
+                        var temp = responses.split('\r\n');
+                        responses = '';
+                        temp.forEach(function (data) { process(data); });
+                    }
+                    if (!response_pending) {
+                        // send pending commands
+                        commands_sent = commands;
+                        if (commands == '') {
+                            synchronize('*'); // heart beat
+                        }
+                        temp = commands;
+                        commands = '';
+                        response_pending = true;
+                        $.ajax({
+                            url: 'http://' + server + '/DebugPortal.ashx',
+                            type: 'POST',
+                            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                            data: 'Commands:' + target + '\r\n' + temp,
+                            dataType: 'text',
+                            success: synchronizing,
+                            error: synchronizing_error
+                        });
+                    }
+                }, 250);
+            }
+        }
     };
 })();

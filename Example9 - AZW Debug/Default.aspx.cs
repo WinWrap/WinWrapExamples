@@ -1,5 +1,6 @@
 ﻿using Examples.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
@@ -21,8 +22,8 @@ namespace Example
 {
     public partial class Form1 : Page, IHost
     {
-        private ApplicationQueue commands_ = ApplicationQueue.Create("commands");
-        private ApplicationQueue responses_ = ApplicationQueue.Create("responses");
+        private ApplicationQueue commands_;
+        private Dictionary<int, ApplicationQueue> responses_;
 
         private static readonly string[] scripts_ =
         {
@@ -43,6 +44,7 @@ namespace Example
             if (!Page.IsPostBack)
             {
                 Session["Text"] = "";
+                LabelTarget.Text = new Random().Next(int.MaxValue).ToString();
                 ListBoxScripts_Initialize();
             }
         }
@@ -56,7 +58,11 @@ namespace Example
         {
             //responses_.Append("Debug");
             //Thread.Sleep(1000);
+            commands_ = ApplicationQueue.Create("commands", LabelTarget.Text);
+            responses_ = new Dictionary<int, ApplicationQueue>();
             WinWrapExecute(true);
+            foreach (ApplicationQueue response in responses_.Values)
+                response.Delete();
         }
 
         protected void ButtonShow_Click(object sender, EventArgs e)
@@ -122,7 +128,7 @@ namespace Example
 
                 if (debug)
                 {
-                    basicNoUIObj.Wait(1);
+                    basicNoUIObj.Wait(3);
                     Log("Debugging complete.");
                 }
             }
@@ -138,14 +144,10 @@ namespace Example
                 string[] commands2 = commands.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string command in commands2)
                 {
-                    // ignore heartbeat (only used to reset the timelimit)
-                    if (command != "*")
-                    {
-                        string[] parts = command.Split(new char[] { ' ' }, 2);
-                        int id = int.Parse(parts[0]);
-                        string param = Encoding.UTF8.GetString(Convert.FromBase64String(parts[1]));
-                        basicNoUIObj.Synchronize(param, id);
-                    }
+                    string[] parts = command.Split(new char[] { ' ' }, 2);
+                    int id = int.Parse(parts[0]);
+                    string param = Encoding.UTF8.GetString(Convert.FromBase64String(parts[1]));
+                    basicNoUIObj.Synchronize(param, id);
                 }
             }
         }
@@ -212,8 +214,25 @@ namespace Example
 
         void basicNoUIObj_Synchronizing(object sender, WinWrap.Basic.Classic.SynchronizingEventArgs e)
         {
-            string response = e.Id + " " + Convert.ToBase64String(Encoding.UTF8.GetBytes(e.Param)) + "\r\n";
-            responses_.Append(response);
+            string data = Convert.ToBase64String(Encoding.UTF8.GetBytes(e.Param)) + "\r\n";
+            if (e.Id >= 0)
+            {
+                // response for a specific remote
+                ApplicationQueue response = null;
+                if (!responses_.TryGetValue(e.Id, out response))
+                {
+                    response = ApplicationQueue.Create("responses", LabelTarget.Text, e.Id.ToString());
+                    responses_.Add(e.Id, response);
+                }
+
+                response.Append(data);
+            }
+            else
+            {
+                // response for all remotes
+                foreach (ApplicationQueue response in responses_.Values)
+                    response.Append(data);
+            }
         }
     }
 }

@@ -18,7 +18,9 @@
                         <asp:ListBox ID="ListBoxScripts" runat="server" Height="100px" Width="204px"></asp:ListBox></td>
                     <td style="vertical-align: text-top">
                         <asp:Button ID="ButtonRun" runat="server" OnClick="ButtonRun_Click" Text="Run" /><br />
-                        <asp:Button ID="ButtonDebug" runat="server" OnClick="ButtonDebug_Click" Text="Debug" /><br />
+                        <asp:Button ID="ButtonDebug" runat="server" OnClick="ButtonDebug_Click" Text="Debug" />
+                        Target: <asp:Label ID="LabelTarget" runat="server" Text="" Font-Bold="True"></asp:Label>
+                        <br />
                         <asp:Button ID="ButtonShow" runat="server" OnClick="ButtonShow_Click" Text="Show" /></td>
                 </tr>
             </table>
